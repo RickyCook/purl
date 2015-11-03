@@ -208,7 +208,7 @@ class QuoteSegmentsTests(TestCase):
         new_url = self.url.add_path_segment(
             'blog/my%2Ftitle/comments')
         self.assertEqual(new_url.as_string(),
-                         'http://example.com/blog/my%25title/comments')
+                         'http://example.com/blog/my%252Ftitle/comments')
 
     def test_add_path_segment_without_quote(self):
         new_url = self.url.add_path_segment(
