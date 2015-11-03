@@ -217,6 +217,21 @@ class QuoteSegmentsTests(TestCase):
         self.assertEqual(new_url.as_string(),
                          'http://example.com/blog/my%2Ftitle/comments')
 
+    def test_mixed_segment_set_quote_first(self):
+        new_url = self.url.add_path_segment(
+            'blog/my%2Ftitle/comments')
+        new_url = new_url.add_path_segment('more%2Fthings', quote=False)
+        self.assertEqual(new_url.as_string(),
+                         'http://example.com/blog/my%252Ftitle/comments/more%2Fthings')
+
+    def test_mixed_segment_set_quote_last(self):
+        new_url = self.url.add_path_segment(
+            'blog/my%2Ftitle/comments',
+            quote=False)
+        new_url = new_url.add_path_segment('more%2Fthings')
+        self.assertEqual(new_url.as_string(),
+                         'http://example.com/blog/my%2Ftitle/comments/more%252Fthings')
+
 
 class NoTrailingSlashTests(TestCase):
 
