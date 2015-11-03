@@ -365,6 +365,7 @@ class URL(object):
         Return the path segments
 
         :param list value: the new path segments to use
+        :param bool quote: whether to quote each path segment
         """
         if value is not None:
             if quote:
@@ -386,6 +387,7 @@ class URL(object):
         Add a new path segment to the end of the current string
 
         :param string value: the new path segment to use
+        :param bool: whether to quote the path segment
 
         Example::
 
