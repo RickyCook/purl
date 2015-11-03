@@ -360,14 +360,18 @@ class URL(object):
         except IndexError:
             return default
 
-    def path_segments(self, value=None):
+    def path_segments(self, value=None, quote=True):
         """
         Return the path segments
 
         :param list value: the new path segments to use
         """
         if value is not None:
-            encoded_values = map(unicode_quote, value)
+            if quote:
+                encoded_values = map(unicode_quote, value)
+            else:
+                encoded_values = value
+
             new_path = '/' + '/'.join(encoded_values)
             return URL._mutate(self, path=new_path)
         parts = self._tuple.path.split('/')
@@ -377,7 +381,7 @@ class URL(object):
         segments = map(unicode_unquote, segments)
         return tuple(segments)
 
-    def add_path_segment(self, value):
+    def add_path_segment(self, value, quote=True):
         """
         Add a new path segment to the end of the current string
 
@@ -390,7 +394,7 @@ class URL(object):
             u'http://example.com/foo/bar'
         """
         segments = self.path_segments() + (to_unicode(value),)
-        return self.path_segments(segments)
+        return self.path_segments(segments, quote=quote)
 
     # ============
     # Query params

@@ -187,6 +187,37 @@ class SimpleExtractionTests(TestCase):
         self.assertEqual(('blog', 'article', '1'), self.url.path_segments())
 
 
+class QuoteSegmentsTests(TestCase):
+    def setUp(self):
+        self.url = URL.from_string('http://example.com')
+
+    def test_path_segments_with_quote(self):
+        new_url = self.url.path_segments(
+            ('blog', 'my%2Ftitle', 'comments'))
+        self.assertEqual(new_url.path(),
+                         '/blog/my%252Ftitle/comments')
+
+    def test_path_segments_without_quote(self):
+        new_url = self.url.path_segments(
+            ('blog', 'my%2Ftitle', 'comments'),
+            quote=False)
+        self.assertEqual(new_url.path(),
+                         '/blog/my%2Ftitle/comments')
+
+    def test_add_path_segment_with_quote(self):
+        new_url = self.url.add_path_segment(
+            'blog/my%2Ftitle/comments')
+        self.assertEqual(new_url.as_string(),
+                         'http://example.com/blog/my%25title/comments')
+
+    def test_add_path_segment_without_quote(self):
+        new_url = self.url.add_path_segment(
+            'blog/my%2Ftitle/comments',
+            quote=False)
+        self.assertEqual(new_url.as_string(),
+                         'http://example.com/blog/my%2Ftitle/comments')
+
+
 class NoTrailingSlashTests(TestCase):
 
     def test_path_extraction_without_trailing_slash(self):
